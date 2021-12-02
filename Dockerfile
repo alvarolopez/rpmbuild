@@ -6,7 +6,7 @@ COPY . .
 
 # Installing tools needed for rpmbuild , 
 # depends on BuildRequires field in specfile, (TODO: take as input & install)
-RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3
+RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync
 
 # Setting up node to run our JS file
 # Download Node Linux binary
