@@ -44,16 +44,17 @@ async function run() {
     await exec.exec(`cp /github/workspace/${specFile} /github/home/rpmbuild/SPECS/`);
 
     // Dowload tar.gz file of source code,  Reference : https://developer.github.com/v3/repos/contents/#get-archive-link
-    await exec.exec(`curl -L --output tmp.tar.gz https://api.github.com/repos/${owner}/${repo}/tarball/${ref}`)
-
-    // create directory to match source file - %{name}-{version}.tar.gz of spec file
-    await exec.exec(`mkdir ${name}-${version}`);
-
-    // Extract source code 
-    await exec.exec(`tar xvf tmp.tar.gz -C ${name}-${version} --strip-components 1`);
-
-    // Create Source tar.gz file 
-    await exec.exec(`tar -czvf ${name}-${version}.tar.gz ${name}-${version}`);
+    await exec.exec('git archive --format=tar.gz -o "%{name}-{version}.tar.gz" --prefix="%{name}-{version}/" ${ref}');
+    // await exec.exec(`curl -L --output tmp.tar.gz https://api.github.com/repos/${owner}/${repo}/tarball/${ref}`)
+    //
+    // // create directory to match source file - %{name}-{version}.tar.gz of spec file
+    // await exec.exec(`mkdir ${name}-${version}`);
+    //
+    // // Extract source code
+    // await exec.exec(`tar xvf tmp.tar.gz -C ${name}-${version} --strip-components 1`);
+    //
+    // // Create Source tar.gz file
+    // await exec.exec(`tar -czvf ${name}-${version}.tar.gz ${name}-${version}`);
 
     // // list files in current directory /github/workspace/
     // await exec.exec('ls -la ');
