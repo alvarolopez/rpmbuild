@@ -14,6 +14,7 @@ async function run() {
     const owner = context.repo.owner;
     const repo = context.repo.repo;
     const ref = context.ref;
+    const version = ref.replace("refs/tags/", "").replace("v", "")
 
     // get inputs from workflow
     // specFile name
@@ -22,15 +23,11 @@ async function run() {
     // Read spec file and get values
     var data = fs.readFileSync(specFile, 'utf8');
     let name = '';
-    let version = '';
 
     for (var line of data.split('\n')) {
       var lineArray = line.split(/[ ]+/);
       if (lineArray[0].includes('Name')) {
         name = name + lineArray[1];
-      }
-      if (lineArray[0].includes('Version')) {
-        version = version + lineArray[1];
       }
     }
     console.log(`name: ${name}`);
@@ -56,7 +53,7 @@ async function run() {
 
     // Execute rpmbuild , -ba generates both RPMS and SPRMS
     try {
-      await exec.exec(`rpmbuild -ba /github/home/rpmbuild/SPECS/${specFile}`);
+      await exec.exec(`rpmbuild -ba --define "version ${version}" /github/home/rpmbuild/SPECS/${specFile}`);
     } catch (err) {
       core.setFailed(`action failed with error: ${err}`);
     }
