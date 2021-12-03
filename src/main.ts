@@ -46,7 +46,7 @@ async function run() {
 
     // Dowload tar.gz file of source code,  Reference : https://developer.github.com/v3/repos/contents/#get-archive-link
     await exec.exec(
-      `git archive --format=tar.gz -o "%{name}-{version}.tar.gz" --prefix="%{name}-{version}/" ${ref}`
+      `git archive --format=tar.gz -o "${name}-${version}.tar.gz" --prefix="${name}-${version}/" ${ref}`
     );
 
     // Copy tar.gz file to source path
