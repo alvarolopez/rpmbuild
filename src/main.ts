@@ -81,6 +81,19 @@ async function run() {
       }
     });
 
+    let rpmOutput = '';
+    await cp.exec('ls /github/home/rpmbuild/RPMS/x86_64', (err, stdout, stderr) => {
+      if (err) {
+        //some err occurred
+        console.error(err);
+      } else {
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        rpmOutput = rpmOutput + `${stdout}`.trim();
+        console.log(`stderr: ${stderr}`);
+      }
+    });
+
     // only contents of workspace can be changed by actions and used by subsequent actions
     // So copy all generated rpms into workspace , and publish output path relative to workspace (/github/workspace)
     await exec.exec(`mkdir -p rpmbuild/SRPMS`);
@@ -98,6 +111,8 @@ async function run() {
     core.setOutput('source_rpm_dir_path', `rpmbuild/SRPMS/`); // path to  SRPMS directory
     core.setOutput('source_rpm_path', `rpmbuild/SRPMS/${myOutput}`); // path to Source RPM file
     core.setOutput('source_rpm_name', `${myOutput}`); // name of Source RPM file
+    core.setOutput('rpm_path', `rpmbuild/SRPMS/${rpmOutput}`); // path to Source RPM file
+    core.setOutput('rpm_name', `${rpmOutput}`); // name of Source RPM file
     core.setOutput('rpm_dir_path', `rpmbuild/RPMS/`); // path to RPMS directory
     core.setOutput('rpm_content_type', 'application/octet-stream'); // Content-type for Upload
   } catch (error) {
