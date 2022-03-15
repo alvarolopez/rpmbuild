@@ -17,6 +17,7 @@ async function run() {
     const version = ref.replace("refs/tags/", "").replace("v", "")
 
     // get inputs from workflow
+    const source_file = core.getInput('source_file'); 
     // specFile name
     const specFile = core.getInput('spec_file');
 
@@ -42,9 +43,14 @@ async function run() {
     );
 
     // Dowload tar.gz file of source code,  Reference : https://developer.github.com/v3/repos/contents/#get-archive-link
-    await exec.exec(
-      `git archive --format=tar.gz -o "${name}-${version}.tar.gz" --prefix="${name}-${version}/" ${ref}`
-    );
+    if(source_file) {
+        await exec.exec(`cp ${source_file} ${name}-${version}.tar.gz`)
+    }
+    else {
+        await exec.exec(
+        `git archive --format=tar.gz -o "${name}-${version}.tar.gz" --prefix="${name}-${version}/" ${ref}`
+        );
+    }
 
     // Copy tar.gz file to source path
     await exec.exec(
