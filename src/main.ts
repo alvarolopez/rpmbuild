@@ -4,6 +4,7 @@ const exec = require('@actions/exec');
 const io = require('@actions/io');
 const cp = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 async function run() {
   try {
@@ -20,6 +21,9 @@ async function run() {
     const source_file = core.getInput('source_file'); 
     // specFile name
     const specFile = core.getInput('spec_file');
+    const specFileDst = path.basename(specFile);
+
+    console.log(`spec: ${specFileDst}`);
 
     // Read spec file and get values
     var data = fs.readFileSync(specFile, 'utf8');
@@ -39,7 +43,7 @@ async function run() {
 
     // Copy spec file from path specFile to /root/rpmbuild/SPECS/
     await exec.exec(
-      `cp /github/workspace/${specFile} /github/home/rpmbuild/SPECS/`
+      `cp /github/workspace/${specFile} /github/home/rpmbuild/SPECS/${specFileDst}`
     );
 
     // Dowload tar.gz file of source code,  Reference : https://developer.github.com/v3/repos/contents/#get-archive-link
@@ -59,7 +63,7 @@ async function run() {
 
     // Execute rpmbuild , -ba generates both RPMS and SPRMS
     try {
-      await exec.exec(`rpmbuild -ba --define "version ${version}" /github/home/rpmbuild/SPECS/${specFile}`);
+      await exec.exec(`rpmbuild -ba --define "version ${version}" /github/home/rpmbuild/SPECS/${specFileDst}`);
     } catch (err) {
       core.setFailed(`action failed with error: ${err}`);
     }

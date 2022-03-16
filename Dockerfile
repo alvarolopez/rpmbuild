@@ -20,6 +20,7 @@ RUN tar --strip-components 1 -xvf node-v* -C /usr/local
 # Install all dependecies to execute main.js
 RUN npm install --production
 
+RUN cat /lib/main.js
 # All remaining logic goes inside main.js , 
 # where we have access to both tools of this container and 
 # contents of git repo at /github/workspace
