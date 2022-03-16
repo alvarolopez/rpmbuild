@@ -18,9 +18,11 @@ RUN curl -O https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-x64.tar.xz
 RUN tar --strip-components 1 -xvf node-v* -C /usr/local
 
 # Install all dependecies to execute main.js
-RUN npm install --production
+RUN npm install -g typescript \
+    && npm install --save @types/node\
+    && npm install --production  \ 
+    && npm run-script build
 
-RUN cat /lib/main.js
 # All remaining logic goes inside main.js , 
 # where we have access to both tools of this container and 
 # contents of git repo at /github/workspace

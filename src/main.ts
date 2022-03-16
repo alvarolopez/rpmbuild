@@ -123,7 +123,7 @@ async function run() {
     core.setOutput('rpm_dir_path', `rpmbuild/RPMS/x86_64/`); // path to RPMS directory
     core.setOutput('rpm_content_type', 'application/octet-stream'); // Content-type for Upload
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed(`Failed: ${error}`);
   }
 }
 
