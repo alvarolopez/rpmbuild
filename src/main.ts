@@ -63,7 +63,7 @@ async function run() {
 
     // Execute rpmbuild , -ba generates both RPMS and SPRMS
     try {
-      await exec.exec(`rpmbuild -ba --define "version ${version}" /github/home/rpmbuild/SPECS/${specFileDst}`);
+      await exec.exec(`rpmbuild -vv -ba --define "version ${version}" /github/home/rpmbuild/SPECS/${specFileDst}`);
     } catch (err) {
       core.setFailed(`action failed with error: ${err}`);
     }
