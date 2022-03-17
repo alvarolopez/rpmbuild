@@ -120,7 +120,7 @@ async function run() {
     core.setOutput('source_rpm_name', `${myOutput}`); // name of Source RPM file
     core.setOutput('rpm_path', `rpmbuild/RPMS/x86_64/${rpmOutput}`); // path to Source RPM file
     core.setOutput('rpm_name', `${rpmOutput}`); // name of Source RPM file
-    core.setOutput('rpm_dir_path', `rpmbuild/RPMS/x86_64/`); // path to RPMS directory
+    core.setOutput('rpm_dir_path', `rpmbuild/RPMS/`); // path to RPMS directory
     core.setOutput('rpm_content_type', 'application/octet-stream'); // Content-type for Upload
   } catch (error) {
     core.setFailed(`Failed: ${error}`);
