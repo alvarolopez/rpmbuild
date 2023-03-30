@@ -6,9 +6,11 @@ COPY . .
 
 # Installing tools needed for rpmbuild , 
 # depends on BuildRequires field in specfile, (TODO: take as input & install)
-RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync
-RUN yum install -y epel-release
-RUN yum install -y python3-setuptools python3-devel python3-pbr python3-tox
+RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync 
+RUN yum install -y epel-release 
+RUN yum install -y python3-setuptools python3-devel python3-pbr python3-pip 
+
+RUN pip3 install --upgrade tox
 
 # Setting up node to run our JS file
 # Download Node Linux binary
