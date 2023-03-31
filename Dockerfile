@@ -8,11 +8,15 @@ COPY . .
 # depends on BuildRequires field in specfile, (TODO: take as input & install)
 RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync 
 RUN yum install -y epel-release 
-RUN yum install -y python3-setuptools python3-devel python3-pip 
+RUN yum install -y python3-setuptools python3-devel python3-pip python3-pbr
 
-RUN pip3 install --user --upgrade pip && \
-    pip3 install --upgrade tox pbr
+ENV PATH=/root/.local/bin:$PATH
 
+RUN python3 -m ensurepip --upgrade && \
+    pip3 install --user --upgrade pip && \
+    pip3 install --user --upgrade tox pbr
+
+RUN tox
 # Setting up node to run our JS file
 # Download Node Linux binary
 RUN curl -O https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-x64.tar.xz
