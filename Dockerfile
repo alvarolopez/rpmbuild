@@ -10,7 +10,8 @@ RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar g
 RUN yum install -y epel-release 
 RUN yum install -y python3-setuptools python3-devel python3-pbr python3-pip 
 
-RUN pip3 install --upgrade tox
+RUN pip3 install --user --upgrade pip && \
+    pip3 install --upgrade tox
 
 # Setting up node to run our JS file
 # Download Node Linux binary
