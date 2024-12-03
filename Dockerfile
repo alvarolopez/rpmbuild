@@ -10,6 +10,9 @@ RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar g
 RUN yum install -y epel-release 
 RUN yum install -y python3-setuptools python3-devel python3-pip python3-pbr
 
+# Install npm
+RUN dnf install nodejs -y
+
 ENV PATH=/root/.local/bin:$PATH
 
 RUN python3 -m ensurepip --upgrade && \
