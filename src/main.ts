@@ -107,7 +107,7 @@ async function run() {
     await exec.exec(`mkdir -p rpmbuild/RPMS`);
 
     await exec.exec(
-      `cp /github/home/rpmbuild/SRPMS/${myOutput} rpmbuild/SRPMS`
+      `cp -r /github/home/rpmbuild/SRPMS/${myOutput} rpmbuild/SRPMS`
     );
     await cp.exec(`cp -R /github/home/rpmbuild/RPMS/. rpmbuild/RPMS/`);
 
