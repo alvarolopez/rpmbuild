@@ -46,6 +46,9 @@ async function run() {
       `cp /github/workspace/${specFile} /github/home/rpmbuild/SPECS/${specFileDst}`
     );
 
+    // Install deps from spec
+    await exec.exec(`dnf builddep -y /github/home/rpmbuild/SPECS/${specFileDst}`);
+
     // Dowload tar.gz file of source code,  Reference : https://developer.github.com/v3/repos/contents/#get-archive-link
     if(source_file) {
         await exec.exec(`cp ${source_file} ${name}-${version}.tar.gz`)
