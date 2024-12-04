@@ -8,7 +8,7 @@ COPY . .
 # depends on BuildRequires field in specfile, (TODO: take as input & install)
 RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync 
 RUN yum install -y epel-release 
-RUN yum install -y python3-setuptools python3-devel python3-pip python3-pbr
+RUN yum install -y python3-setuptools python3-devel python3-pip python3-pbr pyproject-rpm-macros
 
 # Install npm
 RUN dnf install nodejs -y
