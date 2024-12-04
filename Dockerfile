@@ -4,20 +4,23 @@ FROM rockylinux/rockylinux:9
 # Copying all contents of rpmbuild repo inside container
 COPY . .
 
+RUN dnf install -y yum-utils && \
+    dnf config-manager --set-enabled crb && \
+    dnf update -y 
+
 # Installing tools needed for rpmbuild , 
 # depends on BuildRequires field in specfile, (TODO: take as input & install)
-RUN yum install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync 
-RUN yum install -y epel-release 
-RUN yum install -y python3-setuptools python3-devel python3-pip python3-pbr 
+RUN dnf install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync 
+RUN dnf install -y epel-release 
+RUN dnf install -y python3-setuptools python3-devel python3-pip python3-pbr pyproject-rpm-macros
 
-# Install npm
-RUN dnf install nodejs pyproject-rpm-macros -y
+RUN dnf install nodejs -y
 
 ENV PATH=/root/.local/bin:$PATH
 
 RUN python3 -m ensurepip --upgrade && \
     pip3 install --user --upgrade pip && \
-    pip3 install --user --upgrade tox pbr
+    pip3 install --user --upgrade tox pbr poetry
 
 RUN tox
 
