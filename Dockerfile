@@ -12,7 +12,9 @@ RUN dnf install -y yum-utils && \
 # depends on BuildRequires field in specfile, (TODO: take as input & install)
 RUN dnf install -y rpm-build rpmdevtools gcc make coreutils-single python3 tar git rsync 
 RUN dnf install -y epel-release 
-RUN dnf install -y python3-setuptools python3-devel python3-pip python3-pbr pyproject-rpm-macros python3-tomli
+RUN dnf install -y python3-setuptools python3-devel python3-pip python3-pbr pyproject-rpm-macros 
+
+RUN dnf install -y python3-poetry-core python3-tomli
 
 RUN dnf install nodejs -y
 
@@ -20,7 +22,7 @@ ENV PATH=/root/.local/bin:$PATH
 
 RUN python3 -m ensurepip --upgrade && \
     pip3 install --user --upgrade pip && \
-    pip3 install --user --upgrade tox pbr 
+    pip3 install --user --upgrade tox poetry
 
 RUN tox
 
